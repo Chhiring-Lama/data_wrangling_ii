@@ -66,5 +66,78 @@ knitr::kable(bestplaces_nyc)
 
 ## CSS Selectors
 
+```{r}
+swm_html <- read_html("https://www.imdb.com/list/ls070150896/")
+swm_html
+```
+
+```{r}
+title_vec <- swm_html |> 
+  html_elements(".ipc-title-link-wrapper .ipc-title__text") |> 
+  html_text()
+
+metascore_vec = 
+  swm_html |>
+  html_elements(".metacritic-score-box") |>
+  html_text()
+
+runtime_vec <- swm_html |>
+  html_elements(".dli-title-metadata-item:nth-child(2)") |>
+  html_text()
+
+swm_df <- tibble(
+    title = title_vec,
+    score = metascore_vec,
+    runtime = runtime_vec)
+  
+```
+
+## Learning Assessment: 
+[This page](https://books.toscrape.com/) contains some (made up) books. Use a process similar to the one above to extract the book titles, stars, and prices.
+
+### Solution:
+```{r}
+url <- "https://books.toscrape.com/"
+
+book_html <- read_html("https://books.toscrape.com/")
+
+title_books <- book_html |> 
+  html_elements("h3") |>
+  html_text2()
+
+book_stars <- book_html |> 
+  html_elements(".star-rating") |> 
+  html_attr("class")
+
+book_prices <- book_html |> 
+  html_elements(".price_color")|> 
+  html_text()
+
+books_df <- tibble(
+  title = title_books, 
+  rating = book_stars, 
+  price = book_prices)
+  
+```
+
+## Using API
+
+```{r}
+nyc_water <- GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") |> 
+  content()
+```
+
+APIs where there is limit on number of rows
+```{r}
+prfss_df <- GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv", 
+                query = list("$limit" = 5000)) |> 
+  content()
+```
+
+## Pokemon API
+```{r}
+
+```
+
 
 
