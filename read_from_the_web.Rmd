@@ -136,8 +136,15 @@ prfss_df <- GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
 
 ## Pokemon API
 ```{r}
-
+pokemon_df <- GET("https://pokeapi.co/api/v2/pokemon/ditto") |> 
+  content()
 ```
+
+```{r}
+pokemon_df[["abilities"]]
+pokemon_df[["moves"]]
+```
+
 
 
 
