@@ -416,6 +416,18 @@ str_detect(string_vec, &quot;7.11&quot;) ###identifies anywhere where 7 and 11 a
 
 str_detect(string_vec, &quot;\\[&quot;) ###use \\ when looking for special characters that are part of the string</code></pre>
 <pre><code>## [1]  TRUE FALSE  TRUE  TRUE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;\\[|\\]&quot;) ## use | to look for either [ or ]</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE TRUE</code></pre>
+</div>
+<div id="factors" class="section level2">
+<h2>Factors</h2>
+<pre class="r"><code>sex &lt;- factor(c(&quot;male&quot;, &quot;male&quot;, &quot;female&quot;, &quot;female&quot;))
+
+as.numeric(sex)</code></pre>
+<pre><code>## [1] 2 2 1 1</code></pre>
+<pre class="r"><code>sex &lt;- fct_relevel(sex, &quot;male&quot;)
+as.numeric(sex)</code></pre>
+<pre><code>## [1] 1 1 2 2</code></pre>
 </div>
 
 

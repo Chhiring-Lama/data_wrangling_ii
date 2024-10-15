@@ -97,6 +97,17 @@ string_vec = c(
   )
 
 str_detect(string_vec, "\\[") ###use \\ when looking for special characters that are part of the string
+str_detect(string_vec, "\\[|\\]") ## use | to look for either [ or ]
 ```
 
+## Factors
+```{r}
+sex <- factor(c("male", "male", "female", "female"))
+
+as.numeric(sex)
+```
+```{r}
+sex <- fct_relevel(sex, "male")
+as.numeric(sex)
+```
 
