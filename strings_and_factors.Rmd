@@ -111,3 +111,41 @@ sex <- fct_relevel(sex, "male")
 as.numeric(sex)
 ```
 
+## NSDUH
+```{r}
+nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+
+table_marj <- read_html(nsduh_url) |> 
+  html_table() |> 
+  first() |> ### read in the first dataset out of the multiple dfs present 
+  slice(-1) ### remove the first row
+```
+
+```{r}
+data_marj <- table_marj |>
+  select(-contains("P Value")) |>
+  pivot_longer(
+    -State,
+    names_to = "age_year", 
+    values_to = "percent") |> 
+  separate(age_year, into = c("age", "year"), sep = "\\(") |> 
+  mutate(
+    year = str_replace(year, "\\)", ""),
+    percent = str_replace(percent, "[a-c]$", ""), 
+    percent = as.numeric(percent)) 
+  
+```
+
+Now, we want to create a plot of proportion of 12-17 years old saying yes for marijuana usage for all the US states. 
+```{r}
+data_marj |> 
+  filter(age == "12-17", 
+         `State` != "Total U.S." ) |> 
+  mutate(State = fct_reorder(State, percent)) |> 
+  ggplot(aes(x = `State`, y = percent, color = year)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+```
+
+
+
