@@ -3,8 +3,6 @@ title: "Reading from the Web"
 author: "Chhiring Lama"
 date: "2024-10-10"
 output: html_document
-editor_options: 
-  chunk_output_type: console
 ---
 
 

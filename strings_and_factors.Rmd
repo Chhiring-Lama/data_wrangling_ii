@@ -1,0 +1,102 @@
+---
+title: "Strings and Factors"
+author: "Chhiring Lama"
+date: "2024-10-15"
+output: html_document
+---
+
+```{r, message = FALSE, echo = FALSE}
+library(tidyverse)
+library(rvest)
+library(httr)
+library(p8105.datasets)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Strings and regex
+```{r}
+string_vec <- c("My", "name", "is", "chhiring")
+
+str_detect(string_vec, "chhiring")
+
+str_detect(string_vec, "Chhiring")
+
+str_replace(string_vec, "chhiring", "Chhiring")
+```
+
+```{r}
+string_vec = c(
+  "i think we all rule for participating",
+  "i think i have been caught",
+  "i think this will be quite fun actually",
+  "it will be fun, i think"
+  )
+
+str_detect(string_vec, "i think")
+
+str_detect(string_vec, "^i think") ## looks for i think in the beginning of the line
+
+str_detect(string_vec, "i think$") ## looks at the end of the line
+```
+```{r}
+string_vec = c(
+  "Time for a Pumpkin Spice Latte!",
+  "went to the #pumpkinpatch last weekend",
+  "Pumpkin Pie is obviously the best pie",
+  "SMASHING PUMPKINS -- LIVE IN CONCERT!!"
+  )
+
+str_detect(string_vec,"[Pp]umpkin") ###looks for either capitalized or not capitalized pumpkin. this missed 'PUMPKINS'
+
+
+```
+
+```{r}
+string_vec = c(
+  '7th inning stretch',
+  '1st half soon to begin. Texas won the toss.',
+  'she is 5 feet 4 inches tall',
+  '3AM - cant sleep :('
+  )
+
+str_detect(string_vec, "^[0-9][a-zA-Z]") ##looks for a mixed charater that starts with a number followed by a letter (looks for both lowercase and uppercase letters)
+```
+
+```{r}
+string_vec = c(
+  'Its 7:11 in the evening',
+  'want to go to 7-11?',
+  'my flight is AA711',
+  'NetBios: scanning ip 203.167.114.66'
+  )
+
+str_detect(string_vec, "7.11") ###identifies anywhere where 7 and 11 are separated by a symbol or space
+```
+
+```{r}
+string_vec = c(
+  'The CI is [2, 5]',
+  ':-]',
+  ':-[',
+  'I found the answer on pages [6-7]'
+  )
+
+str_detect(string_vec, "\\[") ###use \\ when looking for special characters that are part of the string
+```
+
+
